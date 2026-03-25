@@ -1,6 +1,8 @@
-import { getDashboardMetrics, getTodaySchedule } from './services/dashboardService';
+import { fetchDashboardSummary } from './services/dashboardService';
 
-test('provides dashboard seed data', () => {
-  expect(getDashboardMetrics()).toHaveLength(3);
-  expect(getTodaySchedule()).toHaveLength(3);
+test('provides dashboard summary data', async () => {
+  const summary = await fetchDashboardSummary();
+
+  expect(summary.highlights).toHaveLength(3);
+  expect(summary.totals.clients).toBeGreaterThan(0);
 });

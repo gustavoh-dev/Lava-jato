@@ -10,7 +10,7 @@ const navigationItems = [
 function AppShell() {
   return (
     <div className="app-shell">
-      <header className="navbar">
+      <header className="app-navbar">
         <div className="brand-row">
           <div className="brand-card">
             <span className="brand-badge">Sistema</span>
@@ -19,7 +19,7 @@ function AppShell() {
           </div>
         </div>
 
-        <nav className="navbar-nav" aria-label="Navegacao principal">
+        <nav className="app-navbar-nav" aria-label="Navegacao principal">
           {navigationItems.map((item) => (
             <NavLink
               key={item.path}

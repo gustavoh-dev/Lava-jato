@@ -1,31 +1,39 @@
-const dashboardMetrics = [
-  {
-    label: 'Lavagens hoje',
-    value: '18',
-    helper: '4 servicos em execucao neste momento.',
-  },
-  {
-    label: 'Clientes ativos',
-    value: '246',
-    helper: 'Base recorrente com crescimento no ultimo mes.',
-  },
-  {
-    label: 'Ticket medio',
-    value: 'R$ 82',
-    helper: 'Inclui adicionais como higienizacao e enceramento.',
-  },
-];
+import { getJson } from './api';
 
-const todaySchedule = [
-  { time: '08:00', customer: 'Mariana Costa', vehicle: 'Onix LT', service: 'Lavagem completa' },
-  { time: '09:30', customer: 'Carlos Lima', vehicle: 'HB20', service: 'Polimento tecnico' },
-  { time: '11:00', customer: 'Fernanda Alves', vehicle: 'Toro', service: 'Higienizacao interna' },
-];
+const mockDashboardSummary = {
+  totals: {
+    clients: 246,
+    vehicles: 318,
+    servicesToday: 18,
+  },
+  highlights: [
+    {
+      title: 'Total de clientes',
+      value: 246,
+      description: 'Base ativa com clientes recorrentes e avulsos.',
+      accentClass: 'dashboard-accent-primary',
+    },
+    {
+      title: 'Total de veiculos',
+      value: 318,
+      description: 'Veiculos vinculados ao historico de atendimento.',
+      accentClass: 'dashboard-accent-secondary',
+    },
+    {
+      title: 'Servicos hoje',
+      value: 18,
+      description: 'Ordens concluidas e em andamento no dia.',
+      accentClass: 'dashboard-accent-warning',
+    },
+  ],
+};
 
-export function getDashboardMetrics() {
-  return dashboardMetrics;
-}
+export async function fetchDashboardSummary() {
+  const useMockData = process.env.REACT_APP_USE_MOCK_API !== 'false';
 
-export function getTodaySchedule() {
-  return todaySchedule;
+  if (useMockData) {
+    return Promise.resolve(mockDashboardSummary);
+  }
+
+  return getJson('/dashboard/summary');
 }
