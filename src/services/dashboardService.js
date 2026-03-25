@@ -1,4 +1,4 @@
-import { getJson } from './api';
+import { apiClient } from './api';
 
 const mockDashboardSummary = {
   totals: {
@@ -35,5 +35,6 @@ export async function fetchDashboardSummary() {
     return Promise.resolve(mockDashboardSummary);
   }
 
-  return getJson('/dashboard/summary');
+  const response = await apiClient.get('/dashboard/summary');
+  return response.data;
 }

@@ -1,36 +1,120 @@
+import { useEffect, useRef, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
+import ClientForm from '../../components/clientes/ClientForm';
+import ClientList from '../../components/clientes/ClientList';
+import { createCliente, deleteCliente, getClientes } from '../../services/clientsService';
+import { validateClientForm } from './clientValidation';
 
-const clients = [
-  { name: 'Mariana Costa', phone: '(11) 99999-1234', plan: 'Premium' },
-  { name: 'Carlos Lima', phone: '(11) 98888-4321', plan: 'Recorrente' },
-  { name: 'Fernanda Alves', phone: '(11) 97777-0101', plan: 'Avulso' },
-];
+const initialFormData = {
+  nome: '',
+  telefone: '',
+  email: '',
+};
 
 function ClientesPage() {
+  const [clients, setClients] = useState([]);
+  const [formData, setFormData] = useState(initialFormData);
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState('');
+  const [error, setError] = useState('');
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    loadClients();
+  }, []);
+
+  async function loadClients() {
+    try {
+      setIsLoading(true);
+      setError('');
+      const data = await getClientes();
+      setClients(data);
+    } catch (loadError) {
+      setError('Nao foi possivel carregar os clientes.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    setFormData((current) => ({
+      ...current,
+      [name]: value,
+    }));
+
+    setErrors((current) => ({
+      ...current,
+      [name]: '',
+    }));
+  }
+
+  function focusForm() {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setFeedback('');
+    setError('');
+
+    const validationErrors = validateClientForm(formData);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const createdClient = await createCliente(formData);
+      setClients((current) => [createdClient, ...current]);
+      setFormData(initialFormData);
+      setErrors({});
+      setFeedback('Cliente salvo com sucesso.');
+    } catch (submitError) {
+      setError('Nao foi possivel salvar o cliente.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleDelete(clientId) {
+    try {
+      setError('');
+      await deleteCliente(clientId);
+      setClients((current) => current.filter((client) => client.id !== clientId));
+    } catch (deleteError) {
+      setError('Nao foi possivel deletar o cliente.');
+    }
+  }
+
   return (
     <div className="stack-lg">
       <PageHeader
         title="Clientes"
-        description="Cadastro e acompanhamento do relacionamento com a base ativa."
+        description="Cadastro, consulta e exclusao de clientes com integracao preparada para API."
         actionLabel="Novo cliente"
+        onAction={focusForm}
       />
 
-      <section className="panel">
-        <div className="panel-heading">
-          <h4>Carteira de clientes</h4>
-          <span>Estrutura preparada para integrar com API e filtros.</span>
-        </div>
+      {feedback ? <div className="alert alert-success mb-0">{feedback}</div> : null}
+      {error ? <div className="alert alert-danger mb-0">{error}</div> : null}
 
-        <div className="list-grid">
-          {clients.map((client) => (
-            <article key={client.phone} className="list-card">
-              <strong>{client.name}</strong>
-              <span>{client.phone}</span>
-              <p>{client.plan}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <div ref={formRef}>
+        <ClientForm
+          formData={formData}
+          errors={errors}
+          isSubmitting={isSubmitting}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+        />
+      </div>
+
+      <ClientList clients={clients} isLoading={isLoading} onDelete={handleDelete} />
     </div>
   );
 }

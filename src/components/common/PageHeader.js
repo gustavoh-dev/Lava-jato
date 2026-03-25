@@ -1,4 +1,4 @@
-function PageHeader({ title, description, actionLabel }) {
+function PageHeader({ title, description, actionLabel, onAction }) {
   return (
     <div className="page-header">
       <div>
@@ -6,7 +6,11 @@ function PageHeader({ title, description, actionLabel }) {
         <h3>{title}</h3>
         <p>{description}</p>
       </div>
-      {actionLabel ? <button className="primary-button">{actionLabel}</button> : null}
+      {actionLabel ? (
+        <button type="button" className="primary-button" onClick={onAction}>
+          {actionLabel}
+        </button>
+      ) : null}
     </div>
   );
 }
