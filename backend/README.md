@@ -1,35 +1,31 @@
 # LavaJato Backend
 
-Backend Java do sistema de lava jato.
+API Spring Boot para o sistema de lava jato.
 
-## Estrutura
+## Rodar localmente
+
+```bash
+gradlew.bat bootRun
+```
+
+API em:
 
 ```text
-LavaJato/
-|-- src/
-|   `-- main/
-|       `-- java/
-|           |-- main/
-|           |-- model/
-|           `-- service/
-|-- .gitignore
-`-- README.md
+http://localhost:8080
 ```
 
-## Compilar
+## Endpoints principais
 
-```bash
-javac -d out src/main/java/model/*.java src/main/java/service/*.java src/main/java/main/*.java
-```
+- `GET /clientes`
+- `POST /clientes`
+- `DELETE /clientes/{id}`
+- `GET /veiculos`
+- `POST /veiculos`
+- `GET /agendamentos`
+- `POST /agendamentos`
+- `GET /pagamentos`
+- `PATCH /pagamentos/{id}/pago`
 
-## Executar
+## Observacao
 
-```bash
-java -cp out Main
-```
-
-## Proximos passos recomendados
-
-- adicionar `package` nas classes
-- migrar para Maven ou Gradle
-- criar camada `controller` ou API para integrar com o frontend React
+Os dados atuais ficam em memoria para integrar com o frontend imediatamente. O proximo passo natural e trocar a camada em memoria por banco de dados.

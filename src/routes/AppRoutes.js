@@ -4,6 +4,7 @@ import DashboardPage from '../pages/dashboard';
 import ClientesPage from '../pages/clientes';
 import VeiculosPage from '../pages/veiculos';
 import AgendamentosPage from '../pages/agendamentos';
+import PaymentsPage from '../pages/pagamentos';
 
 function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ function AppRoutes() {
           <Route path="/clientes" element={<ClientesPage />} />
           <Route path="/veiculos" element={<VeiculosPage />} />
           <Route path="/agendamentos" element={<AgendamentosPage />} />
+          <Route path="/pagamentos" element={<PaymentsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

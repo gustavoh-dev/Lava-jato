@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import ClientForm from '../../components/clientes/ClientForm';
 import ClientList from '../../components/clientes/ClientList';
-import { createCliente, deleteCliente, getClientes } from '../../services/clientsService';
+import clientesService from '../../services/clientsService';
 import { validateClientForm } from './clientValidation';
 
 const initialFormData = {
@@ -29,7 +29,7 @@ function ClientesPage() {
     try {
       setIsLoading(true);
       setError('');
-      const data = await getClientes();
+      const data = await clientesService.getClientes();
       setClients(data);
     } catch (loadError) {
       setError('Nao foi possivel carregar os clientes.');
@@ -70,7 +70,7 @@ function ClientesPage() {
 
     try {
       setIsSubmitting(true);
-      const createdClient = await createCliente(formData);
+      const createdClient = await clientesService.createCliente(formData);
       setClients((current) => [createdClient, ...current]);
       setFormData(initialFormData);
       setErrors({});
@@ -85,7 +85,7 @@ function ClientesPage() {
   async function handleDelete(clientId) {
     try {
       setError('');
-      await deleteCliente(clientId);
+      await clientesService.deleteCliente(clientId);
       setClients((current) => current.filter((client) => client.id !== clientId));
     } catch (deleteError) {
       setError('Nao foi possivel deletar o cliente.');

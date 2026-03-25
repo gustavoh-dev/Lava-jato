@@ -1,40 +1,48 @@
-import { apiClient } from './api';
+import clientesService from './clientsService';
+import { getPagamentos } from './paymentsService';
+import { getVeiculos } from './vehiclesService';
 
-const mockDashboardSummary = {
-  totals: {
-    clients: 246,
-    vehicles: 318,
-    servicesToday: 18,
-  },
-  highlights: [
-    {
-      title: 'Total de clientes',
-      value: 246,
-      description: 'Base ativa com clientes recorrentes e avulsos.',
-      accentClass: 'dashboard-accent-primary',
-    },
-    {
-      title: 'Total de veiculos',
-      value: 318,
-      description: 'Veiculos vinculados ao historico de atendimento.',
-      accentClass: 'dashboard-accent-secondary',
-    },
-    {
-      title: 'Servicos hoje',
-      value: 18,
-      description: 'Ordens concluidas e em andamento no dia.',
-      accentClass: 'dashboard-accent-warning',
-    },
-  ],
-};
+function formatLocalDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 export async function fetchDashboardSummary() {
-  const useMockData = process.env.REACT_APP_USE_MOCK_API !== 'false';
+  const today = formatLocalDate(new Date());
 
-  if (useMockData) {
-    return Promise.resolve(mockDashboardSummary);
-  }
+  const [clientes, veiculos, pagamentosHoje] = await Promise.all([
+    clientesService.getClientes(),
+    getVeiculos(),
+    getPagamentos(today),
+  ]);
 
-  const response = await apiClient.get('/dashboard/summary');
-  return response.data;
+  return {
+    totals: {
+      clients: clientes.length,
+      vehicles: veiculos.length,
+      servicesToday: pagamentosHoje.length,
+    },
+    highlights: [
+      {
+        title: 'Total de clientes',
+        value: clientes.length,
+        description: 'Clientes carregados diretamente do backend Spring Boot.',
+        accentClass: 'dashboard-accent-primary',
+      },
+      {
+        title: 'Total de veiculos',
+        value: veiculos.length,
+        description: 'Veiculos obtidos da API real do sistema.',
+        accentClass: 'dashboard-accent-secondary',
+      },
+      {
+        title: 'Servicos hoje',
+        value: pagamentosHoje.length,
+        description: 'Quantidade baseada nos pagamentos filtrados pela data atual.',
+        accentClass: 'dashboard-accent-warning',
+      },
+    ],
+  };
 }

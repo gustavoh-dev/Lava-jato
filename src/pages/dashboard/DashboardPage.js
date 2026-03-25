@@ -44,7 +44,7 @@ function DashboardPage() {
     <div className="stack-lg">
       <PageHeader
         title="Dashboard"
-        description="Visao executiva da operacao do lavajato com indicadores prontos para integrar com API."
+        description="Visao executiva da operacao do lavajato com dados reais do backend."
         actionLabel="Novo agendamento"
       />
 
@@ -55,7 +55,7 @@ function DashboardPage() {
               <span className="section-tag">Resumo do dia</span>
               <h3 className="mt-3 mb-2">Controle rapido da operacao do lavajato</h3>
               <p className="mb-0 dashboard-hero-text">
-                A estrutura usa hooks e service assíncrono, permitindo trocar o mock atual por uma API real sem refazer a tela.
+                Os indicadores agora sao carregados da API Spring Boot em tempo real, sem depender de dados simulados.
               </p>
             </div>
             <div className="col-lg-4">
@@ -96,8 +96,8 @@ function DashboardPage() {
 
       <section className="panel">
         <div className="panel-heading">
-          <h4>Integracao pronta para API</h4>
-          <span>Os dados atuais estao centralizados na camada de servico.</span>
+          <h4>Integracao ativa com backend</h4>
+          <span>O dashboard consolida informacoes reais dos endpoints publicados no backend.</span>
         </div>
 
         <div className="row g-3">
@@ -105,21 +105,21 @@ function DashboardPage() {
             <div className="dashboard-info-tile">
               <small>Service</small>
               <strong>fetchDashboardSummary()</strong>
-              <p className="mb-0">Responsavel por carregar os dados do dashboard.</p>
+              <p className="mb-0">Responsavel por consolidar indicadores da operacao.</p>
             </div>
           </div>
           <div className="col-md-4">
             <div className="dashboard-info-tile">
-              <small>Mock atual</small>
-              <strong>REACT_APP_USE_MOCK_API</strong>
-              <p className="mb-0">Controle simples para alternar entre mock e API real.</p>
+              <small>Endpoints usados</small>
+              <strong>/clientes, /veiculos, /pagamentos</strong>
+              <p className="mb-0">Os totais sao montados a partir dos dados reais da API.</p>
             </div>
           </div>
           <div className="col-md-4">
             <div className="dashboard-info-tile">
-              <small>Endpoint futuro</small>
-              <strong>/dashboard/summary</strong>
-              <p className="mb-0">Contrato sugerido para backend entregar os indicadores.</p>
+              <small>Status</small>
+              <strong>API real habilitada</strong>
+              <p className="mb-0">O frontend agora opera por padrao com o backend Spring Boot.</p>
             </div>
           </div>
         </div>

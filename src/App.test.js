@@ -1,22 +1,6 @@
-jest.mock('axios', () => ({
-  create: () => ({
-    get: jest.fn(),
-    post: jest.fn(),
-    delete: jest.fn(),
-  }),
-}));
-
-import { fetchDashboardSummary } from './services/dashboardService';
 import { validateAppointmentForm } from './pages/agendamentos/appointmentValidation';
 import { validateClientForm } from './pages/clientes/clientValidation';
 import { validateVehicleForm } from './pages/veiculos/vehicleValidation';
-
-test('provides dashboard summary data', async () => {
-  const summary = await fetchDashboardSummary();
-
-  expect(summary.highlights).toHaveLength(3);
-  expect(summary.totals.clients).toBeGreaterThan(0);
-});
 
 test('validates client form fields', () => {
   const errors = validateClientForm({

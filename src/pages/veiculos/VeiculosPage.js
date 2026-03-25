@@ -78,7 +78,7 @@ function VeiculosPage() {
 
     try {
       setIsSubmitting(true);
-      const createdVehicle = await createVeiculo(formData, clients);
+      const createdVehicle = await createVeiculo(formData);
       setVehicles((current) => [createdVehicle, ...current]);
       setFormData(initialFormData);
       setErrors({});

@@ -5,6 +5,7 @@ const navigationItems = [
   { label: 'Clientes', path: '/clientes' },
   { label: 'Veiculos', path: '/veiculos' },
   { label: 'Agendamentos', path: '/agendamentos' },
+  { label: 'Pagamentos', path: '/pagamentos' },
 ];
 
 function AppShell() {

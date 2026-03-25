@@ -114,7 +114,7 @@ function AgendamentosPage() {
 
     try {
       setIsSubmitting(true);
-      const createdAppointment = await createAgendamento(formData, clients, vehicles);
+      const createdAppointment = await createAgendamento(formData);
       setAppointments((current) => [createdAppointment, ...current]);
       setFormData(initialFormData);
       setErrors({});
