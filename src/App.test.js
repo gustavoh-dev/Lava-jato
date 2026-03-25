@@ -1,8 +1,6 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { getDashboardMetrics, getTodaySchedule } from './services/dashboardService';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('provides dashboard seed data', () => {
+  expect(getDashboardMetrics()).toHaveLength(3);
+  expect(getTodaySchedule()).toHaveLength(3);
 });
