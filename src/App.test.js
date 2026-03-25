@@ -7,6 +7,7 @@ jest.mock('axios', () => ({
 }));
 
 import { fetchDashboardSummary } from './services/dashboardService';
+import { validateAppointmentForm } from './pages/agendamentos/appointmentValidation';
 import { validateClientForm } from './pages/clientes/clientValidation';
 import { validateVehicleForm } from './pages/veiculos/vehicleValidation';
 
@@ -39,4 +40,18 @@ test('validates vehicle form fields', () => {
   expect(errors.modelo).toBeTruthy();
   expect(errors.placa).toBeTruthy();
   expect(errors.clienteId).toBeTruthy();
+});
+
+test('validates appointment form fields', () => {
+  const errors = validateAppointmentForm({
+    clienteId: '',
+    veiculoId: '',
+    tipoServico: '',
+    data: '',
+  });
+
+  expect(errors.clienteId).toBeTruthy();
+  expect(errors.veiculoId).toBeTruthy();
+  expect(errors.tipoServico).toBeTruthy();
+  expect(errors.data).toBeTruthy();
 });
