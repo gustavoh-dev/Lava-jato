@@ -1,6 +1,32 @@
 # LavaJato Backend
 
-API Spring Boot para o sistema de lava jato.
+API Spring Boot com persistencia em PostgreSQL.
+
+## Banco de dados
+
+Crie o banco:
+
+```sql
+CREATE DATABASE lavajato;
+```
+
+Configuracao padrao usada pelo projeto:
+
+```text
+host=localhost
+port=5432
+database=lavajato
+username=postgres
+password=postgres
+```
+
+Voce pode sobrescrever por variaveis de ambiente:
+
+```text
+DATABASE_URL=jdbc:postgresql://localhost:5432/lavajato
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+```
 
 ## Rodar localmente
 
@@ -28,4 +54,5 @@ http://localhost:8080
 
 ## Observacao
 
-Os dados atuais ficam em memoria para integrar com o frontend imediatamente. O proximo passo natural e trocar a camada em memoria por banco de dados.
+O schema e criado/atualizado automaticamente com `spring.jpa.hibernate.ddl-auto=update`.
+Quando o banco estiver vazio, a API insere dados iniciais para facilitar os testes do frontend.

@@ -1,17 +1,36 @@
 package com.lavajato.backend.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "veiculos")
 public class Veiculo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String modelo;
+
+    @Column(nullable = false, unique = true)
     private String placa;
+
+    @Column(nullable = false)
     private Long clienteId;
+
+    @Column(nullable = false)
     private String clienteNome;
 
     public Veiculo() {
     }
 
-    public Veiculo(Long id, String modelo, String placa, Long clienteId, String clienteNome) {
-        this.id = id;
+    public Veiculo(String modelo, String placa, Long clienteId, String clienteNome) {
         this.modelo = modelo;
         this.placa = placa;
         this.clienteId = clienteId;

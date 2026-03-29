@@ -1,22 +1,44 @@
 package com.lavajato.backend.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "pagamentos")
 public class Pagamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String clienteNome;
+
+    @Column(nullable = false)
     private String veiculoNome;
+
+    @Column(nullable = false)
     private String servico;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valor;
+
+    @Column(nullable = false)
     private LocalDate data;
+
+    @Column(nullable = false)
     private boolean pago;
 
     public Pagamento() {
     }
 
     public Pagamento(
-        Long id,
         String clienteNome,
         String veiculoNome,
         String servico,
@@ -24,7 +46,6 @@ public class Pagamento {
         LocalDate data,
         boolean pago
     ) {
-        this.id = id;
         this.clienteNome = clienteNome;
         this.veiculoNome = veiculoNome;
         this.servico = servico;

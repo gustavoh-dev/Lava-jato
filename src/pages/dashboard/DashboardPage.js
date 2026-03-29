@@ -44,7 +44,7 @@ function DashboardPage() {
     <div className="stack-lg">
       <PageHeader
         title="Dashboard"
-        description="Visao executiva da operacao do lavajato com dados reais do backend."
+        description="Acompanhe os principais indicadores da operacao do lavajato em um unico lugar."
         actionLabel="Novo agendamento"
       />
 
@@ -52,17 +52,17 @@ function DashboardPage() {
         <div className="card-body p-4 p-lg-5">
           <div className="row align-items-center g-4">
             <div className="col-lg-8">
-              <span className="section-tag">Resumo do dia</span>
-              <h3 className="mt-3 mb-2">Controle rapido da operacao do lavajato</h3>
+              <span className="section-tag">Painel operacional</span>
+              <h3 className="mt-3 mb-2">Visao rapida do movimento do dia</h3>
               <p className="mb-0 dashboard-hero-text">
-                Os indicadores agora sao carregados da API Spring Boot em tempo real, sem depender de dados simulados.
+                Consulte cadastros, frota atendida e servicos registrados hoje para acompanhar o funcionamento do sistema.
               </p>
             </div>
             <div className="col-lg-4">
               <div className="dashboard-highlight-box">
-                <span className="dashboard-highlight-label">Ordens de hoje</span>
+                <span className="dashboard-highlight-label">Servicos realizados hoje</span>
                 <strong>{summary?.totals.servicesToday ?? '--'}</strong>
-                <p className="mb-0">Monitoramento operacional centralizado.</p>
+                <p className="mb-0">Indicador atualizado a partir dos registros de pagamento do dia.</p>
               </div>
             </div>
           </div>
@@ -85,45 +85,77 @@ function DashboardPage() {
       ) : null}
 
       {!isLoading && !error && summary ? (
-        <section className="row g-4">
-          {summary.highlights.map((item) => (
-            <div key={item.title} className="col-12 col-md-6 col-xl-4">
-              <DashboardStatCard {...item} />
+        <>
+          <section className="row g-4">
+            {summary.highlights.map((item) => (
+              <div key={item.title} className="col-12 col-md-6 col-xl-4">
+                <DashboardStatCard {...item} />
+              </div>
+            ))}
+          </section>
+
+          <section className="row g-4">
+            <div className="col-12 col-xl-6">
+              <div className="panel dashboard-panel h-100">
+                <div className="panel-heading">
+                  <h4>Resumo operacional</h4>
+                  <span>Leitura objetiva do momento atual da operacao.</span>
+                </div>
+
+                <div className="dashboard-summary-list">
+                  <div className="dashboard-summary-item">
+                    <span className="dashboard-summary-bullet dashboard-accent-primary-bg" />
+                    <div>
+                      <strong>{summary.totals.clients} clientes cadastrados</strong>
+                      <p className="mb-0">Base disponivel para relacionamento, agendamentos e historico de servicos.</p>
+                    </div>
+                  </div>
+
+                  <div className="dashboard-summary-item">
+                    <span className="dashboard-summary-bullet dashboard-accent-secondary-bg" />
+                    <div>
+                      <strong>{summary.totals.vehicles} veiculos registrados</strong>
+                      <p className="mb-0">Frota vinculada aos clientes para acelerar o atendimento no balcao.</p>
+                    </div>
+                  </div>
+
+                  <div className="dashboard-summary-item">
+                    <span className="dashboard-summary-bullet dashboard-accent-warning-bg" />
+                    <div>
+                      <strong>{summary.totals.servicesToday} servicos com data de hoje</strong>
+                      <p className="mb-0">Movimento do dia refletido pelos registros operacionais e pagamentos.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </section>
+
+            <div className="col-12 col-xl-6">
+              <div className="panel dashboard-panel h-100">
+                <div className="panel-heading">
+                  <h4>Atencao do dia</h4>
+                  <span>Boas praticas para manter o atendimento fluindo sem atrasos.</span>
+                </div>
+
+                <div className="dashboard-checklist">
+                  <div className="dashboard-check-item">
+                    <strong>Confirme os agendamentos</strong>
+                    <p className="mb-0">Revise o calendario e valide o veiculo correto antes do servico.</p>
+                  </div>
+                  <div className="dashboard-check-item">
+                    <strong>Atualize os pagamentos</strong>
+                    <p className="mb-0">Marque como pago cada atendimento concluido para manter o caixa correto.</p>
+                  </div>
+                  <div className="dashboard-check-item">
+                    <strong>Mantenha os cadastros limpos</strong>
+                    <p className="mb-0">Evite duplicidade de clientes e veiculos para preservar o historico.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
       ) : null}
-
-      <section className="panel">
-        <div className="panel-heading">
-          <h4>Integracao ativa com backend</h4>
-          <span>O dashboard consolida informacoes reais dos endpoints publicados no backend.</span>
-        </div>
-
-        <div className="row g-3">
-          <div className="col-md-4">
-            <div className="dashboard-info-tile">
-              <small>Service</small>
-              <strong>fetchDashboardSummary()</strong>
-              <p className="mb-0">Responsavel por consolidar indicadores da operacao.</p>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="dashboard-info-tile">
-              <small>Endpoints usados</small>
-              <strong>/clientes, /veiculos, /pagamentos</strong>
-              <p className="mb-0">Os totais sao montados a partir dos dados reais da API.</p>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="dashboard-info-tile">
-              <small>Status</small>
-              <strong>API real habilitada</strong>
-              <p className="mb-0">O frontend agora opera por padrao com o backend Spring Boot.</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

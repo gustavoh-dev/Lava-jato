@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const navigationItems = [
   { label: 'Dashboard', path: '/dashboard' },
@@ -9,6 +10,14 @@ const navigationItems = [
 ];
 
 function AppShell() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  function handleLogout() {
+    logout();
+    navigate('/login', { replace: true });
+  }
+
   return (
     <div className="app-shell">
       <header className="app-navbar">
@@ -32,6 +41,9 @@ function AppShell() {
               {item.label}
             </NavLink>
           ))}
+          <button type="button" className="logout-button" onClick={handleLogout}>
+            Sair
+          </button>
         </nav>
       </header>
 
@@ -41,7 +53,10 @@ function AppShell() {
             <span className="eyebrow">Painel administrativo</span>
             <h2>Gestao profissional do lava jato</h2>
           </div>
-          <div className="status-pill">Base inicial pronta para evolucao</div>
+          <div className="topbar-meta">
+            <div className="status-pill">Sessao ativa</div>
+            <div className="user-pill">{user?.email}</div>
+          </div>
         </header>
 
         <section className="page-content">

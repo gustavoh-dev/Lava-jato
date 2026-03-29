@@ -1,6 +1,24 @@
+jest.mock('axios', () => ({
+  create: () => ({
+    get: jest.fn(),
+    post: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn(),
+  }),
+}));
+
 import { validateAppointmentForm } from './pages/agendamentos/appointmentValidation';
 import { validateClientForm } from './pages/clientes/clientValidation';
 import { validateVehicleForm } from './pages/veiculos/vehicleValidation';
+import App from './App';
+import { render, screen } from '@testing-library/react';
+
+test('redirects to login screen when user is not authenticated', () => {
+  window.localStorage.clear();
+  render(<App />);
+  expect(screen.getByText(/lava jato pro/i)).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
+});
 
 test('validates client form fields', () => {
   const errors = validateClientForm({

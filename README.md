@@ -1,17 +1,19 @@
 # Sistema Lava Jato
 
-Repositorio unificado com frontend React e backend Java.
+Projeto full stack para gestao de um lavajato, com frontend React na raiz do repositorio e backend Spring Boot em `backend/`.
 
 ## Estrutura
 
 ```text
 .
 |-- backend/
-|   |-- src/main/java/
+|   |-- src/main/java/com/lavajato/backend/
+|   |-- src/main/resources/
 |   `-- README.md
 |-- public/
 |-- src/
 |   |-- components/
+|   |-- contexts/
 |   |-- pages/
 |   |-- routes/
 |   `-- services/
@@ -19,22 +21,105 @@ Repositorio unificado com frontend React e backend Java.
 `-- README.md
 ```
 
-## Frontend
+## Modulos do frontend
+
+- `dashboard`
+- `clientes`
+- `veiculos`
+- `agendamentos`
+- `pagamentos`
+- `login` com protecao de rotas
+
+## Tecnologias
+
+- React com componentes funcionais e hooks
+- React Router
+- Bootstrap
+- Axios
+- Spring Boot
+- Spring Data JPA
+- PostgreSQL
+
+## Pre-requisitos
+
+- Node.js
+- Java 24
+- PostgreSQL com um banco `lavajato`
+
+Crie o banco:
+
+```sql
+CREATE DATABASE lavajato;
+```
+
+## Configuracao do backend
+
+As configuracoes padrao sao:
+
+```text
+DATABASE_URL=jdbc:postgresql://localhost:5432/lavajato
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+```
+
+Se sua senha for diferente, defina as variaveis antes de subir a API.
+
+## Rodando localmente
+
+Instale as dependencias do frontend:
 
 ```bash
 npm install
-npm start
-npm test
-npm run build
 ```
 
-## Backend
+Suba o backend:
+
+```powershell
+$env:DATABASE_USERNAME="postgres"
+$env:DATABASE_PASSWORD="SUA_SENHA"
+npm run start:backend
+```
+
+Em outro terminal, suba o frontend:
 
 ```bash
-javac -d backend/out backend/src/main/java/model/*.java backend/src/main/java/service/*.java backend/src/main/java/main/*.java
-java -cp backend/out Main
+npm start
 ```
 
-## Observacao
+Aplicacoes:
 
-O frontend continua sendo a aplicacao principal na raiz. O backend Java foi incorporado na pasta `backend/` para manter tudo no mesmo GitHub.
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:8080`
+
+## Scripts
+
+```bash
+npm start
+npm run build
+npm test -- --watchAll=false
+npm run start:backend
+npm run test:backend
+```
+
+## Endpoints principais
+
+- `GET /dashboard/summary`
+- `GET /clientes`
+- `POST /clientes`
+- `DELETE /clientes/{id}`
+- `GET /veiculos`
+- `POST /veiculos`
+- `GET /agendamentos`
+- `POST /agendamentos`
+- `GET /pagamentos`
+- `PATCH /pagamentos/{id}/pago`
+
+## Estado atual
+
+O projeto esta fechado como MVP funcional:
+
+- autenticacao basica no frontend
+- protecao de rotas
+- persistencia real no PostgreSQL
+- integracao React + Spring Boot
+- dashboard consumindo dados reais da API

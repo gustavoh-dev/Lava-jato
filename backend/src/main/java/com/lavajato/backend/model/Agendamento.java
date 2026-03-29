@@ -1,22 +1,46 @@
 package com.lavajato.backend.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "agendamentos")
 public class Agendamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private Long clienteId;
+
+    @Column(nullable = false)
     private String clienteNome;
+
+    @Column(nullable = false)
     private Long veiculoId;
+
+    @Column(nullable = false)
     private String veiculoNome;
+
+    @Column(nullable = false)
     private String placa;
+
+    @Column(nullable = false)
     private String tipoServico;
+
+    @Column(nullable = false)
     private LocalDate data;
 
     public Agendamento() {
     }
 
     public Agendamento(
-        Long id,
         Long clienteId,
         String clienteNome,
         Long veiculoId,
@@ -25,7 +49,6 @@ public class Agendamento {
         String tipoServico,
         LocalDate data
     ) {
-        this.id = id;
         this.clienteId = clienteId;
         this.clienteNome = clienteNome;
         this.veiculoId = veiculoId;

@@ -17,8 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:backend": "backend\\gradlew.bat -p backend bootRun",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:backend": "backend\\gradlew.bat -p backend test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
