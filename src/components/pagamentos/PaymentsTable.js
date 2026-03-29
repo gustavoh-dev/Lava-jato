@@ -10,7 +10,7 @@ function PaymentsTable({ payments, isLoading, onMarkAsPaid }) {
     <section className="panel">
       <div className="panel-heading">
         <h4>Servicos realizados</h4>
-        <span>Tabela pronta para integrar com API de pagamentos e conciliacao financeira.</span>
+        <span>Acompanhe os servicos concluidos e atualize o status de pagamento quando necessario.</span>
       </div>
 
       {isLoading ? (

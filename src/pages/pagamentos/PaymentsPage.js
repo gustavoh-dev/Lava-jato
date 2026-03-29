@@ -52,7 +52,7 @@ function PaymentsPage() {
     <div className="stack-lg">
       <PageHeader
         title="Pagamentos"
-        description="Controle financeiro dos servicos realizados com filtro por data e acao de baixa."
+        description="Acompanhe os valores recebidos e os servicos pendentes de pagamento."
       />
 
       {feedback ? <div className="alert alert-success mb-0">{feedback}</div> : null}

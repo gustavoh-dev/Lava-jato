@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
-import ClientForm from '../../components/clientes/ClientForm';
-import ClientList from '../../components/clientes/ClientList';
-import clientesService from '../../services/clientsService';
-import { validateClientForm } from './clientValidation';
+import ServiceForm from '../../components/servicos/ServiceForm';
+import ServiceList from '../../components/servicos/ServiceList';
+import { createServico, getServicos } from '../../services/serviceCatalogService';
+import { validateServiceForm } from './serviceValidation';
 
 const initialFormData = {
   nome: '',
-  telefone: '',
-  email: '',
+  descricao: '',
+  valor: '',
 };
 
-function ClientesPage() {
-  const [clients, setClients] = useState([]);
+function ServicosPage() {
+  const [services, setServices] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -22,17 +22,17 @@ function ClientesPage() {
   const formRef = useRef(null);
 
   useEffect(() => {
-    loadClients();
+    loadServices();
   }, []);
 
-  async function loadClients() {
+  async function loadServices() {
     try {
-      setIsLoading(true);
       setError('');
-      const data = await clientesService.getClientes();
-      setClients(data);
+      setIsLoading(true);
+      const data = await getServicos();
+      setServices(data);
     } catch (loadError) {
-      setError('Nao foi possivel carregar os clientes.');
+      setError('Nao foi possivel carregar os servicos.');
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +61,7 @@ function ClientesPage() {
     setFeedback('');
     setError('');
 
-    const validationErrors = validateClientForm(formData);
+    const validationErrors = validateServiceForm(formData);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -70,34 +70,28 @@ function ClientesPage() {
 
     try {
       setIsSubmitting(true);
-      const createdClient = await clientesService.createCliente(formData);
-      setClients((current) => [createdClient, ...current]);
+      const payload = {
+        ...formData,
+        valor: Number(formData.valor),
+      };
+      const createdService = await createServico(payload);
+      setServices((current) => [createdService, ...current]);
       setFormData(initialFormData);
       setErrors({});
-      setFeedback('Cliente salvo com sucesso.');
+      setFeedback('Servico salvo com sucesso.');
     } catch (submitError) {
-      setError('Nao foi possivel salvar o cliente.');
+      setError('Nao foi possivel salvar o servico.');
     } finally {
       setIsSubmitting(false);
-    }
-  }
-
-  async function handleDelete(clientId) {
-    try {
-      setError('');
-      await clientesService.deleteCliente(clientId);
-      setClients((current) => current.filter((client) => client.id !== clientId));
-    } catch (deleteError) {
-      setError('Nao foi possivel deletar o cliente.');
     }
   }
 
   return (
     <div className="stack-lg">
       <PageHeader
-        title="Clientes"
-        description="Cadastre, consulte e organize os clientes atendidos pelo lavajato."
-        actionLabel="Novo cliente"
+        title="Servicos"
+        description="Cadastre os servicos oferecidos e mantenha os valores organizados."
+        actionLabel="Novo servico"
         onAction={focusForm}
       />
 
@@ -105,7 +99,7 @@ function ClientesPage() {
       {error ? <div className="alert alert-danger mb-0">{error}</div> : null}
 
       <div ref={formRef}>
-        <ClientForm
+        <ServiceForm
           formData={formData}
           errors={errors}
           isSubmitting={isSubmitting}
@@ -114,9 +108,9 @@ function ClientesPage() {
         />
       </div>
 
-      <ClientList clients={clients} isLoading={isLoading} onDelete={handleDelete} />
+      <ServiceList services={services} isLoading={isLoading} />
     </div>
   );
 }
 
-export default ClientesPage;
+export default ServicosPage;

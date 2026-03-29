@@ -3,7 +3,7 @@ function ClientList({ clients, isLoading, onDelete }) {
     <section className="panel">
       <div className="panel-heading">
         <h4>Listagem de clientes</h4>
-        <span>Dados carregados via `GET /clientes` e exclusao via `DELETE /clientes/:id`.</span>
+        <span>Consulte os clientes cadastrados e gerencie os registros da operacao.</span>
       </div>
 
       {isLoading ? (

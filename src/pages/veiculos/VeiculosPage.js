@@ -94,7 +94,7 @@ function VeiculosPage() {
     <div className="stack-lg">
       <PageHeader
         title="Veiculos"
-        description="Cadastro de veiculos com vinculo ao cliente vindo da API."
+        description="Cadastre os veiculos e relacione cada registro ao cliente responsavel."
         actionLabel="Novo veiculo"
         onAction={focusForm}
       />

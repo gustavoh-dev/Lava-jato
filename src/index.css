@@ -133,6 +133,11 @@ td {
   align-items: center;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
 .nav-link {
   padding: 0.85rem 1rem;
   border-radius: var(--radius-sm);

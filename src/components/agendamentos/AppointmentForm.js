@@ -1,11 +1,12 @@
 function AppointmentForm({
   clients,
   vehicles,
-  serviceTypes,
+  services,
   formData,
   errors,
   isLoadingClients,
   isLoadingVehicles,
+  isLoadingServices,
   isSubmitting,
   onChange,
   onSubmit,
@@ -80,11 +81,14 @@ function AppointmentForm({
             value={formData.tipoServico}
             onChange={onChange}
             className={errors.tipoServico ? 'form-select is-invalid' : 'form-select'}
+            disabled={isLoadingServices || services.length === 0}
           >
-            <option value="">Selecione o servico</option>
-            {serviceTypes.map((serviceType) => (
-              <option key={serviceType} value={serviceType}>
-                {serviceType}
+            <option value="">
+              {isLoadingServices ? 'Carregando servicos...' : 'Selecione o servico'}
+            </option>
+            {services.map((service) => (
+              <option key={service.id} value={service.nome}>
+                {service.nome}
               </option>
             ))}
           </select>

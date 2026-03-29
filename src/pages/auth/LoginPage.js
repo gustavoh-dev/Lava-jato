@@ -38,7 +38,7 @@ function LoginPage() {
     const success = await login(formData);
 
     if (!success) {
-      setError('Credenciais invalidas. Use o acesso padrao do sistema.');
+      setError('Credenciais invalidas. Verifique seu email e senha.');
       setIsSubmitting(false);
       return;
     }
@@ -67,7 +67,7 @@ function LoginPage() {
               value={formData.email}
               onChange={handleChange}
               className="form-control"
-              placeholder="admin@lavajato.com"
+              placeholder="seuemail@empresa.com"
               required
             />
           </div>
@@ -83,7 +83,7 @@ function LoginPage() {
               value={formData.password}
               onChange={handleChange}
               className="form-control"
-              placeholder="123456"
+              placeholder="Digite sua senha"
               required
             />
           </div>
@@ -96,12 +96,6 @@ function LoginPage() {
             </button>
           </div>
         </form>
-
-        <div className="auth-hint">
-          <strong>Acesso padrao</strong>
-          <span>Email: `admin@lavajato.com`</span>
-          <span>Senha: `123456`</span>
-        </div>
       </div>
     </div>
   );

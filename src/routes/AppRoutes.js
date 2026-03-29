@@ -6,6 +6,8 @@ import ClientesPage from '../pages/clientes';
 import VeiculosPage from '../pages/veiculos';
 import AgendamentosPage from '../pages/agendamentos';
 import PaymentsPage from '../pages/pagamentos';
+import UsuariosPage from '../pages/usuarios';
+import ServicosPage from '../pages/servicos';
 import LoginPage from '../pages/auth';
 
 function AppRoutes() {
@@ -21,6 +23,8 @@ function AppRoutes() {
             <Route path="/veiculos" element={<VeiculosPage />} />
             <Route path="/agendamentos" element={<AgendamentosPage />} />
             <Route path="/pagamentos" element={<PaymentsPage />} />
+            <Route path="/usuarios" element={<UsuariosPage />} />
+            <Route path="/servicos" element={<ServicosPage />} />
           </Route>
         </Route>
       </Routes>

@@ -9,6 +9,8 @@ jest.mock('axios', () => ({
 
 import { validateAppointmentForm } from './pages/agendamentos/appointmentValidation';
 import { validateClientForm } from './pages/clientes/clientValidation';
+import { validateServiceForm } from './pages/servicos/serviceValidation';
+import { validateUserForm } from './pages/usuarios/userValidation';
 import { validateVehicleForm } from './pages/veiculos/vehicleValidation';
 import App from './App';
 import { render, screen } from '@testing-library/react';
@@ -56,4 +58,30 @@ test('validates appointment form fields', () => {
   expect(errors.veiculoId).toBeTruthy();
   expect(errors.tipoServico).toBeTruthy();
   expect(errors.data).toBeTruthy();
+});
+
+test('validates user form fields', () => {
+  const errors = validateUserForm({
+    nome: '',
+    email: 'invalido',
+    senha: '123',
+    perfil: '',
+  });
+
+  expect(errors.nome).toBeTruthy();
+  expect(errors.email).toBeTruthy();
+  expect(errors.senha).toBeTruthy();
+  expect(errors.perfil).toBeTruthy();
+});
+
+test('validates service form fields', () => {
+  const errors = validateServiceForm({
+    nome: '',
+    descricao: '',
+    valor: 0,
+  });
+
+  expect(errors.nome).toBeTruthy();
+  expect(errors.descricao).toBeTruthy();
+  expect(errors.valor).toBeTruthy();
 });

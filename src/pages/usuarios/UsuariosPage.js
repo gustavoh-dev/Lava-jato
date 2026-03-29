@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
-import ClientForm from '../../components/clientes/ClientForm';
-import ClientList from '../../components/clientes/ClientList';
-import clientesService from '../../services/clientsService';
-import { validateClientForm } from './clientValidation';
+import UserForm from '../../components/usuarios/UserForm';
+import UserList from '../../components/usuarios/UserList';
+import { createUsuario, getUsuarios } from '../../services/usersService';
+import { validateUserForm } from './userValidation';
 
 const initialFormData = {
   nome: '',
-  telefone: '',
   email: '',
+  senha: '',
+  perfil: '',
 };
 
-function ClientesPage() {
-  const [clients, setClients] = useState([]);
+function UsuariosPage() {
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -22,17 +23,17 @@ function ClientesPage() {
   const formRef = useRef(null);
 
   useEffect(() => {
-    loadClients();
+    loadUsers();
   }, []);
 
-  async function loadClients() {
+  async function loadUsers() {
     try {
-      setIsLoading(true);
       setError('');
-      const data = await clientesService.getClientes();
-      setClients(data);
+      setIsLoading(true);
+      const data = await getUsuarios();
+      setUsers(data);
     } catch (loadError) {
-      setError('Nao foi possivel carregar os clientes.');
+      setError('Nao foi possivel carregar os usuarios.');
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +62,7 @@ function ClientesPage() {
     setFeedback('');
     setError('');
 
-    const validationErrors = validateClientForm(formData);
+    const validationErrors = validateUserForm(formData);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -70,34 +71,24 @@ function ClientesPage() {
 
     try {
       setIsSubmitting(true);
-      const createdClient = await clientesService.createCliente(formData);
-      setClients((current) => [createdClient, ...current]);
+      const createdUser = await createUsuario(formData);
+      setUsers((current) => [createdUser, ...current]);
       setFormData(initialFormData);
       setErrors({});
-      setFeedback('Cliente salvo com sucesso.');
+      setFeedback('Usuario salvo com sucesso.');
     } catch (submitError) {
-      setError('Nao foi possivel salvar o cliente.');
+      setError('Nao foi possivel salvar o usuario.');
     } finally {
       setIsSubmitting(false);
-    }
-  }
-
-  async function handleDelete(clientId) {
-    try {
-      setError('');
-      await clientesService.deleteCliente(clientId);
-      setClients((current) => current.filter((client) => client.id !== clientId));
-    } catch (deleteError) {
-      setError('Nao foi possivel deletar o cliente.');
     }
   }
 
   return (
     <div className="stack-lg">
       <PageHeader
-        title="Clientes"
-        description="Cadastre, consulte e organize os clientes atendidos pelo lavajato."
-        actionLabel="Novo cliente"
+        title="Usuarios"
+        description="Gerencie os acessos internos e os perfis de operacao do sistema."
+        actionLabel="Novo usuario"
         onAction={focusForm}
       />
 
@@ -105,7 +96,7 @@ function ClientesPage() {
       {error ? <div className="alert alert-danger mb-0">{error}</div> : null}
 
       <div ref={formRef}>
-        <ClientForm
+        <UserForm
           formData={formData}
           errors={errors}
           isSubmitting={isSubmitting}
@@ -114,9 +105,9 @@ function ClientesPage() {
         />
       </div>
 
-      <ClientList clients={clients} isLoading={isLoading} onDelete={handleDelete} />
+      <UserList users={users} isLoading={isLoading} />
     </div>
   );
 }
 
-export default ClientesPage;
+export default UsuariosPage;

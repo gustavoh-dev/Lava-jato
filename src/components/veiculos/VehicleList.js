@@ -3,7 +3,7 @@ function VehicleList({ vehicles, isLoading }) {
     <section className="panel">
       <div className="panel-heading">
         <h4>Listagem de veiculos</h4>
-        <span>Dados carregados via `GET /veiculos` com cliente associado.</span>
+        <span>Visualize os veiculos cadastrados e o cliente responsavel por cada registro.</span>
       </div>
 
       {isLoading ? (

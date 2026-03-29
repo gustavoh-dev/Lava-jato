@@ -7,6 +7,8 @@ const navigationItems = [
   { label: 'Veiculos', path: '/veiculos' },
   { label: 'Agendamentos', path: '/agendamentos' },
   { label: 'Pagamentos', path: '/pagamentos' },
+  { label: 'Usuarios', path: '/usuarios' },
+  { label: 'Servicos', path: '/servicos' },
 ];
 
 function AppShell() {
@@ -41,9 +43,11 @@ function AppShell() {
               {item.label}
             </NavLink>
           ))}
-          <button type="button" className="logout-button" onClick={handleLogout}>
-            Sair
-          </button>
+          <div className="nav-actions">
+            <button type="button" className="logout-button" onClick={handleLogout}>
+              Sair
+            </button>
+          </div>
         </nav>
       </header>
 

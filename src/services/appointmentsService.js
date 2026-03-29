@@ -1,13 +1,5 @@
 import { apiClient, unwrapResponse } from './api';
 
-const serviceTypes = [
-  'Lavagem simples',
-  'Lavagem completa',
-  'Higienizacao interna',
-  'Polimento tecnico',
-  'Enceramento',
-];
-
 function normalizeAppointment(appointment) {
   return {
     id: appointment.id,
@@ -19,10 +11,6 @@ function normalizeAppointment(appointment) {
     tipoServico: appointment.tipoServico,
     data: appointment.data,
   };
-}
-
-export function getServiceTypes() {
-  return serviceTypes;
 }
 
 export async function getAgendamentos() {

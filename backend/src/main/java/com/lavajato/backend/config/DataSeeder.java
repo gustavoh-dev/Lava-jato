@@ -2,10 +2,13 @@ package com.lavajato.backend.config;
 
 import com.lavajato.backend.dto.CreateAgendamentoRequest;
 import com.lavajato.backend.dto.CreateClienteRequest;
+import com.lavajato.backend.dto.CreateServicoRequest;
+import com.lavajato.backend.dto.CreateUsuarioRequest;
 import com.lavajato.backend.dto.CreateVeiculoRequest;
 import com.lavajato.backend.model.Cliente;
 import com.lavajato.backend.model.Veiculo;
 import com.lavajato.backend.service.LavaJatoDataService;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +20,33 @@ public class DataSeeder {
     @Bean
     CommandLineRunner seedDatabase(LavaJatoDataService dataService) {
         return args -> {
+            if (dataService.listarUsuarios().isEmpty()) {
+                dataService.criarUsuario(
+                    new CreateUsuarioRequest("Administrador", "admin@lavajato.com", "123456", "Administrador")
+                );
+                dataService.criarUsuario(
+                    new CreateUsuarioRequest("Atendente", "atendimento@lavajato.com", "123456", "Atendente")
+                );
+            }
+
+            if (dataService.listarServicos().isEmpty()) {
+                dataService.criarServico(
+                    new CreateServicoRequest("Lavagem simples", "Lavagem externa com acabamento rapido.", new BigDecimal("45.00"))
+                );
+                dataService.criarServico(
+                    new CreateServicoRequest("Lavagem completa", "Lavagem externa e interna com aspiracao.", new BigDecimal("80.00"))
+                );
+                dataService.criarServico(
+                    new CreateServicoRequest("Higienizacao interna", "Limpeza detalhada da parte interna do veiculo.", new BigDecimal("95.00"))
+                );
+                dataService.criarServico(
+                    new CreateServicoRequest("Polimento tecnico", "Tratamento de pintura com polimento profissional.", new BigDecimal("150.00"))
+                );
+                dataService.criarServico(
+                    new CreateServicoRequest("Enceramento", "Aplicacao de cera de protecao e brilho.", new BigDecimal("70.00"))
+                );
+            }
+
             if (!dataService.listarClientes().isEmpty()) {
                 return;
             }
