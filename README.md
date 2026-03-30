@@ -123,3 +123,44 @@ O projeto esta fechado como MVP funcional:
 - persistencia real no PostgreSQL
 - integracao React + Spring Boot
 - dashboard consumindo dados reais da API
+
+## Deploy no Render
+
+Suba o projeto em 3 partes:
+
+1. `PostgreSQL` no Render
+2. `backend` como `Web Service`
+3. `frontend` como `Static Site`
+
+### Backend
+
+- Root directory: `backend`
+- Runtime: `Docker`
+- Dockerfile path: `./Dockerfile`
+
+Variaveis de ambiente:
+
+```text
+DATABASE_URL=<Internal Database URL do Render Postgres>
+CORS_ALLOWED_ORIGINS=https://seu-frontend.onrender.com
+```
+
+### Frontend
+
+- Root directory: raiz do repositorio
+- Build command: `npm install && npm run build`
+- Publish directory: `build`
+
+Variavel de ambiente:
+
+```text
+REACT_APP_API_URL=https://seu-backend.onrender.com
+```
+
+Na configuracao do Static Site, adicione uma rewrite para React Router:
+
+```text
+Source: /*
+Destination: /index.html
+Action: Rewrite
+```
