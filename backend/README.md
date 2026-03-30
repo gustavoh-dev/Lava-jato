@@ -79,3 +79,15 @@ Variaveis de ambiente:
 DATABASE_URL=<Internal Database URL do Render Postgres>
 CORS_ALLOWED_ORIGINS=https://seu-frontend.onrender.com
 ```
+
+O backend agora aceita tanto:
+
+```text
+jdbc:postgresql://...
+```
+
+quanto:
+
+```text
+postgresql://usuario:senha@host:5432/banco
+```
